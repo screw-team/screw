@@ -1,0 +1,37 @@
+{
+  "name": "screw-cli",
+  "version": "1.0.1",
+  "description": "Screw 前端工程工作流",
+  "license": "WTFL",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/screw-team/screw"
+  },
+  "author": "screw-team",
+  "homepage": "https://github.com/screw-team/screw",
+  "dependencies": {
+    "commander": "^2.8.0",
+    "concat-with-sourcemaps": "^1.0.2",
+    "gulp": "^3.8.11",
+    "gulp-autoprefixer": "^2.2.0",
+    "gulp-connect": "^2.2.0",
+    "gulp-htmlmin": "^1.1.1",
+    "gulp-jshint": "^1.10.0",
+    "gulp-minify-css": "^1.1.0",
+    "gulp-uglify": "^1.2.0",
+    "gulp-util": "^3.0.4",
+    "gulp-watch": "^4.2.4",
+    "map-stream": "0.0.5",
+    "orchestrator": "^0.3.7",
+    "stream-combiner2": "^1.0.2",
+    "through2": "^0.6.5",
+    "vinyl-fs": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {},
+  "bin": {
+    "screw": "bin/screw"
+  },
+  "preferGlobal": true,
+  "private": false
+}

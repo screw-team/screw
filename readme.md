@@ -1,10 +1,9 @@
 #Screw
 
-##install
-
-｀｀｀
+##install  
+```
 npm install screw-cli -g
-｀｀｀
+```
 
 ##useage
 

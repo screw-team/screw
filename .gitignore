@@ -1,5 +1,5 @@
 .DS_Store
 node_modules
-test/release
-test/static
+test/release/**
+test/static/**
 test/screw.pid

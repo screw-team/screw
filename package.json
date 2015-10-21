@@ -2,7 +2,7 @@
   "name": "screw-cli",
   "version": "1.0.1",
   "description": "Screw 前端工程工作流",
-  "license": "WTFL",
+  "license": "WTFPL",
   "repository": {
     "type": "git",
     "url": "https://github.com/screw-team/screw"
@@ -27,7 +27,10 @@
     "through2": "^0.6.5",
     "vinyl-fs": "^1.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "gulp-imagemin": "^2.3.0",
+    "imagemin-pngquant": "^4.2.0"
+  },
   "scripts": {},
   "bin": {
     "screw": "bin/screw"

@@ -25,15 +25,17 @@
     "orchestrator": "^0.3.7",
     "stream-combiner2": "^1.0.2",
     "through2": "^0.6.5",
-    "vinyl-fs": "^1.0.0"
-  },
-  "devDependencies": {
+    "vinyl-fs": "^1.0.0",
+    "gulp-if": "^2.0.0",
     "gulp-imagemin": "^2.3.0",
+    "gulp-less": "^3.0.3",
+    "gulp-load-plugins": "^1.0.0",
     "imagemin-pngquant": "^4.2.0"
   },
+  "devDependencies": {},
   "scripts": {},
   "bin": {
-    "screw": "bin/screw"
+    "screw": "./bin/screw"
   },
   "preferGlobal": true,
   "private": false

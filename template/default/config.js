@@ -20,7 +20,10 @@ module.exports = {
 		watch:['js','css','image','html'],
 		watchExt:[],
 		// 测试参数
-		main:'html/index.html',
+    main: {
+      'html': 'html/index.html',
+      'less': 'css/base.less'
+    },
 		port:8001,
 		//发布参数
     release: "./release",

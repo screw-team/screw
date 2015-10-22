@@ -1,0 +1,32 @@
+@2: -0px -0px 26px 25px;
+@1: -0px -25px 26px 26px;
+@3: -0px -51px 26px 26px;
+.sprite-width(@sprite) {
+  width: extract(@sprite, 3);
+}
+.sprite-height(@sprite) {
+  height: extract(@sprite, 4);
+}
+.sprite-position(@sprite) {
+  @sprite-offset-x: extract(@sprite, 1);
+  @sprite-offset-y: extract(@sprite, 2);
+  background-position: @sprite-offset-x @sprite-offset-y;
+}
+.sprite(@sprite, @display: block) {
+  .sprite-position(@sprite);
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: @display;
+  .sprite-width(@sprite);
+  .sprite-height(@sprite);
+}
+.sprite {
+  background-image: url("../image/sprite.png");
+}
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+  .sprite {
+    background-image: url("../image/sprite@2x.png");
+    background-size: 26px 77px;
+  }
+}

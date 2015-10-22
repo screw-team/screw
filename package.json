@@ -28,7 +28,11 @@
     "gulp-watch": "^4.2.4",
     "imagemin-pngquant": "^4.2.0",
     "map-stream": "0.0.5",
+    "merge-stream": "^1.0.0",
     "orchestrator": "^0.3.7",
+    "run-sequence": "^1.1.4",
+    "sprity": "^1.0.7",
+    "sprity-less": "^1.0.3",
     "stream-combiner2": "^1.0.2",
     "through2": "^0.6.5",
     "vinyl-fs": "^1.0.0"

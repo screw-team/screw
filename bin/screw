@@ -9,6 +9,7 @@ var path = require('path');
 var Promise = require('bluebird');
 var screwutil = require('../lib/screw-util.js');
 var screwtemp = require('../lib/screw-template');
+var screwcomponent = require('../lib/screw-component');
 var screwPath = path.resolve(path.dirname(fs.realpathSync(__filename)),'../');
 var workPath = process.cwd();
 /**命令行子命令设置***************/
@@ -18,15 +19,19 @@ var pkgjson = require('../package.json');
 program
   .version(pkgjson.version);
 
-// 工程初始化
+// 按模板初始化工程
 program.command('init [template]')
-  // .alias('i')
-  .description('根据模板初始化工程,请在空目录下执行该命令,工程默认模板为default')
-  // .option('-f, --force','强制初始化，如果目录不为空将清空')
+  .description('根据模板初始化工程,请在空目录下执行该命令,默认为default')
   .action(init);
 
-program.command('server')
-  .description('工程监控服务')
+// 安装模块组件
+program.command('install [component]')
+  // .alias('i')
+  .description('安装模板组件')
+  .action(install);
+
+program.command('dev')
+  .description('开发过程监控服务')
   .option('-i,--info','显示当前服务状态')
   .option('-s,--start','启动服务')
   .option('-S,--stop','停止服务')
@@ -38,12 +43,12 @@ program.command('release')
   .option('-l --list','显示已经发布的版本列表')
   .option('-i --info <version>','显示已发布版本的资源文件版本日志')
   .action(release);
-program.command('template')
-  .description('将当前工程保存为模板')
-  .option('-l --list','显示当前模板列表')
-  .option('-d --delete <name>','删除模板')
-  .option('-s --save <name>','将当前开发目录保存为模板')
-  .action(template);
+// program.command('template')
+//   .description('将当前工程保存为模板')
+//   .option('-l --list','显示当前模板列表')
+//   .option('-d --delete <name>','删除模板')
+//   .option('-s --save <name>','将当前开发目录保存为模板')
+//   .action(template);
 
 program.parse(process.argv);
 
@@ -73,29 +78,29 @@ function init(tempName){
     console.log('[screw] 工程目录不为空，无法初始化。');
     return;
   }
-  // var exec = require('child_process').exec,commstr,
-  //   path_modules = path.join(screwPath,'node_modules'),
-  //   ln_modules = path.join(workPath,'node_modules'),
-  //   path_gulpfile = path.join(screwPath,'lib','gulpfile.js'),
-  //   ln_gulpfile = path.join(workPath,'gulpfile.js');
-  // if (process.platform==='win32') { //only > win7
-  //   var os = require('os');
-  //   if (os.release()<'6.1') {
-  //     console.log('[screw] error! windows系统仅支持win7以上系统！');
-  //     return;
-  //   }
-  //   commstr = 'mklink /D '+ln_modules+' '+path_modules;
-  //   commstr+='&mklink '+ln_gulpfile+' '+path_gulpfile;
-  // }else{
-  //   commstr = 'ln -s '+path_modules+' '+ln_modules;
-  //   commstr+=';ln -s '+path_gulpfile+' '+ln_gulpfile;
-  // }
-  // exec(commstr,function(error, stdout, stderr){
-  //   if (error !== null) {
-  //     console.error('[screw] error: ' + error);
-  //     return;
-  //   }
-  // });
+  var exec = require('child_process').exec,commstr,
+    path_modules = path.join(screwPath,'node_modules'),
+    ln_modules = path.join(workPath,'node_modules'),
+    path_gulpfile = path.join(screwPath,'lib','gulpfile.js'),
+    ln_gulpfile = path.join(workPath,'gulpfile.js');
+  if (process.platform==='win32') { //only > win7
+    var os = require('os');
+    if (os.release()<'6.1') {
+      console.log('[screw] error! windows系统仅支持win7以上系统！');
+      return;
+    }
+    commstr = 'mklink /D '+ln_modules+' '+path_modules;
+    commstr+='&mklink '+ln_gulpfile+' '+path_gulpfile;
+  }else{
+    commstr = 'ln -s '+path_modules+' '+ln_modules;
+    commstr+=';ln -s '+path_gulpfile+' '+ln_gulpfile;
+  }
+  exec(commstr,function(error, stdout, stderr){
+    if (error !== null) {
+      console.error('[screw] error: ' + error);
+      return;
+    }
+  });
 
   console.log('[screw] 工程初始化...');
   var screwInit = require('screw-init');
@@ -115,6 +120,7 @@ function init(tempName){
         bar = bar || new SimpleTick('downloading `' + tempName + '` ');
         bar.tick();
       }
+      //@TODO 模板获取路径可配置
       screwinit.download("screw-team/screw-template-"+tempName, function(error, location) {
         if (error) {
           return reject(error);
@@ -130,6 +136,43 @@ function init(tempName){
     screwtemp.copy(tempName, tempdir, workPath);
   });
 }
+
+function install(){
+  console.log("install");
+  var screwInit = require('screw-init');
+  // 配置 screw init
+  var screwinit = new screwInit({
+      type: 'github',
+      log: {
+          writer: process.stdout,
+          level: 0
+      }
+  });
+  Promise.try(function(){
+    return new Promise(function(resolve, reject) {
+      var SimpleTick = require('../lib/tick');
+      var bar;
+      function progress() {
+        bar = bar || new SimpleTick('downloading `' + tempName + '` ');
+        bar.tick();
+      }
+      //@TODO 模板获取路径可配置
+      screwinit.download("screw-team/screw-template-"+tempName, function(error, location) {
+        if (error) {
+          return reject(error);
+        }
+
+        bar.clear();
+        console.log(location);
+        resolve(location);
+      }, progress);
+    });
+  })
+  .then(function(tempdir) {
+    screwutil.copyDir(tempdir, workPath);
+  });
+}
+
 function server(){
   if (!screwutil.checkscrew()) {
     console.error('[screw] 不是有效的screw工程目录。'+workPath);
@@ -164,7 +207,7 @@ function server(){
   this.outputHelp();
 }
 
-// 保存模板
+// 模板
 function template(){
   var args = Array.prototype.slice.bind(arguments)();
   // console.log(args);

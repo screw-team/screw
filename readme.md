@@ -9,16 +9,16 @@ npm install screw-cli -g
 
 ###init  
 ```
-screw init
+screw init [template name]
 ```
 
 ###server  
 ```
-screw server --start
-screw server --stop
-screw server --restart
-screw server --info
-screw server --help
+screw dev --start
+screw dev --stop
+screw dev --restart
+screw dev --info
+screw dev --help
 ```
 
 ###release  

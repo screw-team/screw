@@ -12,8 +12,10 @@ var screwPath = path.resolve(path.dirname(fs.realpathSync(__filename)),'../');
 var workPath = process.cwd();
 /**命令行子命令设置***************/
 var program = require('commander');
+// 从 package.json 里读取版本号
+var pkgjson = require('../package.json');
 program
-  .version('1.0.0');
+  .version(pkgjson.version);
 
 // 工程初始化
 program.command('init [template]')
@@ -57,7 +59,12 @@ process.on('SIGINT', function (){
   //停止gulp子进程
   var screwgulp = require('../lib/screw-gulp');
   screwgulp.stop();
-  process.kill();
+  //CTRL + C 退出，避免node报错
+  try{
+    process.kill();
+  }catch(e){
+    //console.log('[screw] 退出');
+  }
 });
 // 初始化工程
 function init(tempName){

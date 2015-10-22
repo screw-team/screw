@@ -17,14 +17,12 @@ module.exports = {
 		ename:'screw-demo',
 		description:'screw工程流模板工程',
 		version:'1.0.0',
-		watch:['sprite',['css','js'],'image','html'],
+		watch:['clean','sprite',['css','js'],'image','html'],
 		watchExt:[],
     // 路径参数
 		main: {
       'html': 'index.html',
-      'less': 'base.less',
-      'sprite': 'img/sprite',
-      'sprite2x': 'img/sprite2x',
+      'less': 'base.less'
     },
 		port:8001,
 		//发布参数
